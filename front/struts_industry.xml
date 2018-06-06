@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+    <struts>
+    	<package name="industry" extends="struts-default">
+    		<action name="industryAction" class="com.wgl.action.IndustryAction">
+    			<result name="addIndustry" type="redirect">industryAction!getAllIndustry.go</result>
+    			<result name="addIndustry_error">/404.jsp</result>
+    			<result name="tiaozhuan_Industry">/WEB-INF/admin/addIndustry.jsp</result>
+    			<result name="getAllIndustry">/WEB-INF/admin/adminIndustry.jsp</result>
+    			<result name="getAllFrontIndustry">/WEB-INF/jhd/xwzx.jsp</result>
+    			<result name="getAllIndustry_error">/404.jsp</result>
+    			<result name="getIndustryById">/WEB-INF/admin/updateIndustry.jsp</result>
+    			<result name="getIndustryById_error"></result>
+    			<result name="updateIndustry" type="redirect">industryAction!getAllIndustry.go</result>
+    			<result name="deleteIndustry" type="redirectAction">
+    			   <param name="actionName">industryAction</param>
+                   <param name="method">getAllIndustry</param>
+    			</result>			
+    			
+    			
+    			<result name="tiao_index">/WEB-INF/jhd/index.jsp</result>
+    			
+    			<result name="getAllIndustry_query">/WEB-INF/admin/adminIndustry_query.jsp</result>
+    			<result name="getAllIndustry_error_query">/WEB-INF/admin/adminIndustry_query.jsp</result>
+    			<result name="getAllIndustryByGroupname">/WEB-INF/jhd/frontIndustry.jsp</result>
+    			<result name="getAllIndustryByGroupname_error">/WEB-INF/jhd/frontIndustry.jsp</result>
+    			<result name="groupnameindustry">/WEB-INF/admin/categoryIndustry.jsp</result>
+    			<result name="admin_groupnameindustry">/WEB-INF/admin/adminGroupnameIndustry.jsp</result>
+    			<result name="admin_groupnameindustry_error">/WEB-INF/admin/adminGroupnameIndustry.jsp</result>
+    			<result name="getAllGroupnameIndustry_query">/WEB-INF/admin/adminGroupnameIndustry.jsp</result>
+    			<result name="getAllGroupnameIndustry_error_query">/WEB-INF/admin/adminGroupnameIndustry.jsp</result>
+    			<result name="defaultIndustry">/WEB-INF/jhd/IndustryDefault.jsp</result>
+    		</action>
+    	</package> 
+    </struts>

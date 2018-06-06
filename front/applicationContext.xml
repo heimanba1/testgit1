@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	
+	<!-- 读取属性配置文件 -->
+	<context:property-placeholder location="/WEB-INF/properties/jdbc.properties"/>
+	
+	<!-- 开启spring2.5自动扫描 -->
+	<context:component-scan base-package="com.wgl"></context:component-scan>
+	
+	<!-- 配置数据源连接数据库 -->
+	<bean id="ds" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${className}"></property>
+       	<property name="url" value="${url}"></property>
+       	<property name="username" value="${userName}"></property>
+       	<property name="password" value="${password}"></property>
+	</bean>
+	
+	<!-- 获取sessionFaction对象 -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="ds"></property>
+		
+		<!-- 获取hibernate的属性文件 -->
+		<property name="hibernateProperties">
+			<value>
+       			hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+		        hibernate.hbm2ddl.auto=update
+		        hibernate.show_sql=true
+		        hibernate.format_sql=false  <!-- 数据库出现异常时 是否格式化sql语句 -->
+		        hibernate.cache.use_second_level_cache=true <!-- 开启二级缓存 -->
+        	    hibernate.cache.provider_class=org.hibernate.cache.EhCacheProvider     <!-- 这是用哪一种缓存的jar文件 -->
+       	  		hibernate.cache.use_query_cache=false  <!-- 对hql语句的缓存 -->
+       		</value>
+		</property>
+		
+		<!--配置映射文件  -->
+		<property name="mappingResources">
+			<list>
+		<value>com/wgl/bean/ActivityEnroll.hbm.xml</value>
+				<value>com/wgl/bean/Photo.hbm.xml</value>
+				<value>com/wgl/bean/Activity.hbm.xml</value>
+				 <value>com/wgl/bean/VUser.hbm.xml</value>
+				<value>com/wgl/bean/user.hbm.xml</value>
+				
+				<value>com/wgl/bean/Album.hbm.xml</value>
+				
+				<value>com/wgl/bean/News.hbm.xml</value>
+				<value>com/wgl/bean/Announce.hbm.xml</value>
+				
+				<value>com/wgl/bean/TDoc.hbm.xml</value>
+				<value>com/wgl/bean/TShipin.hbm.xml</value>
+				<value>com/wgl/bean/Admin.hbm.xml</value>
+				
+				
+				
+				
+				<value>com/wgl/bean/Goodsinfo.hbm.xml</value>
+				
+				<value>com/wgl/bean/GoodsAttribute.hbm.xml</value>
+				<value>com/wgl/bean/GoodsAttr.hbm.xml</value>
+				<value>com/wgl/bean/Goodstype.hbm.xml</value>
+				<value>com/wgl/bean/Firstpageimage.hbm.xml</value>
+				<value>com/wgl/bean/Banner.hbm.xml</value>
+				
+				<value>com/wgl/bean/Tree.hbm.xml</value>
+				<value>com/wgl/bean/Industry.hbm.xml</value>
+			  
+			</list>
+		</property>		
+	</bean>
+	
+	<bean id="TDocDAO" class="com.wgl.dao.impl.TDocDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="docAction" class="com.wgl.action.docAction" scope="prototype">
+		<property name="docDAO">
+			<ref bean="TDocDAO" />
+		</property>
+	</bean>
+	
+	
+	<bean id="TShipinDAO" class="com.wgl.dao.impl.TShipinDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="shipinAction" class="com.wgl.action.shipinAction" scope="prototype">
+		<property name="shipinDAO">
+			<ref bean="TShipinDAO" />
+		</property>
+	</bean>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		<!-- 将session连接注入到dao层中 -->
+	
+	<!-- goodsTypeDao的注入 -->
+	<bean id="goodsTypeDao"
+		class="com.wgl.dao.impl.GoodsTypeDaoImpl" abstract="false"
+		lazy-init="default" autowire="default">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	
+		<!-- goodsAttrDao的注入 -->
+	<bean id="goodsAttrDao"
+		class="com.wgl.dao.impl.GoodsAttrDaoImpl" abstract="false"
+		lazy-init="default" autowire="default">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<!-- goodsAttributeDao的注入 -->
+	<bean id="goodsAttributeDao"
+		class="com.wgl.dao.impl.GoodsAttributeDaoImpl" abstract="false"
+		lazy-init="default" autowire="default">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	
+	<bean id="goodsInfoDao"
+		class="com.wgl.dao.impl.GoodsInfoDaoImpl" abstract="false"
+		lazy-init="default" autowire="default">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	
+	
+	
+		<bean id="firstPageImageDao"
+		class="com.wgl.dao.impl.FirstPageImageDaoImpl" abstract="false"
+		lazy-init="default" autowire="default">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	
+	
+	<bean id="goodsTypeService"
+		class="com.wgl.services.impl.GoodsTypeServiceImpl"
+		abstract="false" lazy-init="default" autowire="default">
+		<property name="goodsTypeDao">
+			<ref bean="goodsTypeDao" />
+		</property>
+	</bean>
+	<bean id="goodsAttrService"
+		class="com.wgl.services.impl.GoodsAttrServiceImpl"
+		abstract="false" lazy-init="default" autowire="default">
+		<property name="goodsAttrDao">
+			<ref bean="goodsAttrDao" />
+		</property>
+	</bean>
+	
+	<bean id="goodsAttributeService"
+		class="com.wgl.services.impl.GoodsAttributeServiceImpl"
+		abstract="false" lazy-init="default" autowire="default">
+		<property name="goodsAttributeDao">
+			<ref bean="goodsAttributeDao" />
+		</property>
+	</bean>
+	<bean id="goodsInfoService"
+		class="com.wgl.services.impl.GoodsInfoServiceImpl"
+		abstract="false" lazy-init="default" autowire="default">
+		<property name="goodsInfoDao">
+			<ref bean="goodsInfoDao" />
+		</property>
+	</bean>
+
+	
+		<bean id="firstPageImageService"
+		class="com.wgl.services.impl.FirstPageImageServiceImpl"
+		abstract="false" lazy-init="default" autowire="default">
+		<property name="firstPageImageDao">
+			<ref bean="firstPageImageDao" />
+		</property>
+		</bean>
+	
+		
+	<!-- 将service层注入到action中-->
+
+	<bean id="goodsTypeAction"
+		class="com.wgl.action.GoodsTypeAction" abstract="false"
+		scope="prototype" lazy-init="default" autowire="default">
+		<property name="goodsTypeService">
+			<ref bean="goodsTypeService" />
+		</property>
+	</bean>
+	
+	
+	<bean id="goodsAttrAction"
+		class="com.wgl.action.GoodsAttrAction" abstract="false"
+		scope="prototype" lazy-init="default" autowire="default">
+		<property name="goodsAttrService">
+			<ref bean="goodsAttrService" />
+		</property>
+	</bean>
+	
+	<bean id="goodsAttributeAction"
+		class="com.wgl.action.GoodsAttributeAction" abstract="false"
+		scope="prototype" lazy-init="default" autowire="default">
+		<property name="goodsAttributeService">
+			<ref bean="goodsAttributeService" />
+		</property>
+	</bean>
+	
+	<bean id="GoodsInfoAction"
+		class="com.wgl.action.GoodsInfoAction" abstract="false"
+		scope="prototype" lazy-init="default" autowire="default">
+		<property name="goodsInfoService">
+			<ref bean="goodsInfoService" />
+		</property>	
+	</bean>
+	
+
+
+	<bean id="firstPageImageAction"
+		class="com.wgl.action.FirstPageImageAction" abstract="false"
+		scope="prototype" lazy-init="default" autowire="default">
+		<property name="firstPageImageService">
+			<ref bean="firstPageImageService" />
+		</property>
+	</bean>
+	
+		
+	
+	
+	
+	
+
+	
+	
+	<!--配置事物  -->
+	<bean id="tx" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<tx:annotation-driven transaction-manager="tx"/>
+</beans>

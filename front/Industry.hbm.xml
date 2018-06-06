@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+	
+	<hibernate-mapping>
+		<class name="com.wgl.bean.Industry" table="t_industry">
+			<id name="i_id" column="i_id">
+				<generator class="native"></generator>
+			</id>
+			<property name="i_time" column="i_time" type="java.lang.String" length="40"></property>
+			<property name="i_images" column="i_images" type="java.lang.String" length="40"></property>
+			<property name="i_title" column="i_title" type="java.lang.String" length="40"></property>
+			<property name="i_source" column="i_source" type="java.lang.String" length="15"></property>
+			<property name="i_content" column="i_content" type="java.lang.String" length="5000"></property>
+			<property name="i_price" column="i_price" type="java.lang.Float" length="100"></property>
+			<property name="i_contact" column="i_contact" type="java.lang.String" length="25"></property>
+			<property name="i_groupname" column="i_groupname" type="int"></property>
+		</class>
+	</hibernate-mapping>
